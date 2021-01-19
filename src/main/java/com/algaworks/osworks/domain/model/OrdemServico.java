@@ -2,6 +2,8 @@ package com.algaworks.osworks.domain.model;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class OrdemServico {
@@ -17,19 +20,22 @@ public class OrdemServico {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne
 	private Cliente cliente;
-	
+
 	private String descricao;
-	
+
 	private BigDecimal preco;
-	
+
 	@Enumerated(EnumType.STRING)
 	private StatusOrdemServico status;
-	
+
 	private OffsetDateTime dataAbertura;
 	private OffsetDateTime dataFinalizacao;
+
+	@OneToMany(mappedBy = "ordemServico")
+	private List<Comentario> comentarios = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -93,6 +99,14 @@ public class OrdemServico {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
+	}
+
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
 	}
 
 	@Override
