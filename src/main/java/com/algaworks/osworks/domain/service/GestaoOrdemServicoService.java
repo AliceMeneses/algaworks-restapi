@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.algaworks.osworks.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.osworks.domain.exception.NegocioException;
 import com.algaworks.osworks.domain.model.Cliente;
 import com.algaworks.osworks.domain.model.Comentario;
@@ -41,7 +42,7 @@ public class GestaoOrdemServicoService {
 	public Comentario adicionarComentario(Long OrdemServicoId, String descricao) {
 		
 		OrdemServico ordemServico = ordemServicoRepository.findById(OrdemServicoId)
-				.orElseThrow(() -> new NegocioException("Ordem de serviço mão encontrada"));
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Ordem de serviço mão encontrada"));
 		
 		Comentario comentario = new Comentario();
 		comentario.setDataEnvio(OffsetDateTime.now());
